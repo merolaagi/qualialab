@@ -16,6 +16,16 @@ Verify the live `/healthz` commit equals `git rev-parse HEAD`, then exercise the
 
 Changes pushed from another computer are not deployed silently. In this checkout run `npm run sync` to require a clean checkout, fast-forward from origin/main, test, and activate it. An iteration is complete only after the same repository and domain are updated and verified.
 
+## One-time service activation
+
+If setup was performed from a sandboxed agent session, run this directly in Terminal on the Mac mini:
+
+```sh
+python3 /Users/manishbhattarai/Sites/qualialab/scripts/enable-services.py
+```
+
+It loads the prepared login services, then replaces only setup processes whose PID, exact command, and working directory match this project. It leaves temporary processes running if service activation fails. No sudo is needed. The app can be live temporarily before this step, but should not be treated as durably supervised until the step succeeds.
+
 ## Service lifecycle
 
 The app service is `com.merolaagi.qualialab.app`; the dedicated tunnel is `com.merolaagi.qualialab.tunnel`. Their launch-agent files are in the signed-in user's Library/LaunchAgents. Both are configured to run at login and restart on failure. The Mac must remain awake and online. These are user login services: after a reboot they start when this user logs in, not before login.

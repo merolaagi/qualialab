@@ -15,8 +15,14 @@
     "matches": 4106,
     "maximumRawRMS": 1.2126907651446042
   },
-  "browser_visual_QA": "Unavailable: local preview and browser launch blocked in this environment.",
+  "browser_visual_QA": "Live HTTPS site inspected in browser; training, alignment, 5,000-case search, winner loading, and temporal memory exercised.",
   "webmcp_native_validation": "Unavailable; registration, valid read, and invalid-input handling checked in a mock context.",
   "pdf_visual_QA": "17 pages rendered and reviewed; transcript and narrative included.",
-  "publication": "Not published: Sites publishing helper disappeared from the available plugin installation during the task."
+  "publication": "Public GitHub repository and Cloudflare hostname verified; login-service activation requires one-time Terminal command because this agent session cannot bootstrap macOS services.",
+  "deployment": {
+    "domain": "https://qualialab.fueldeskpro.com",
+    "repository": "https://github.com/merolaagi/qualialab",
+    "origin": "127.0.0.1:61071",
+    "ci": "GitHub Actions computational checks passed"
+  }
 }
