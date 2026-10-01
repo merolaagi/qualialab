@@ -200,6 +200,8 @@ The interface offers visual inspection of eight components rather than pretendin
 
 This appendix preserves all returned message text in chronological order. Speech disfluencies, very short acknowledgments, and unfinished responses are retained. Generated-artifact placeholders are marked unavailable because the files were not returned. The scientific qualifications above apply to the early statements below; the transcript is an archival record, not an endorsement of every claim.
 '''
+intro = intro.replace('## Appendix A. Recovered conversation transcript', (ROOT/'research/monty-integration.md').read_text() + '\n\n## Appendix A. Recovered conversation transcript')
+intro = intro.replace('## A general laboratory for experience, representation, and behavior', '## A general laboratory for experience, representation, and behavior\n\nLive app: https://qualialab.fueldeskpro.com\n\nRepository: https://github.com/merolaagi/qualialab\n\nThis record preserves the original iterations and adds the real Monty extension in section 17. Original browser-only runtime descriptions apply to the first four panels; the new Sensorimotor lab runs on the Mac mini. See DEPLOYMENT.md for publishing and service management.')
 record=json.loads((ROOT/'research/conversation.json').read_text())
 parts=[intro]
 for n,turn in enumerate(record['turns'],1):
@@ -245,7 +247,7 @@ def page(canvas,doc):
     canvas.setStrokeColor(colors.HexColor('#bed1dc'));canvas.line(48,h-37,w-48,h-37)
     canvas.setFont('Helvetica',8);canvas.setFillColor(colors.HexColor('#587084'))
     canvas.drawString(48,h-28,'QUALIA LAB  /  RESEARCH RECORD')
-    canvas.drawRightString(w-48,h-28,'ITERATIONS 1-4 + GENERALIZED EDITION')
+    canvas.drawRightString(w-48,h-28,'ITERATIONS 1-4 + MONTY EXTENSION')
     canvas.drawString(48,28,'Reconstructed functionality · Recovered conversation preserved')
     canvas.drawRightString(w-48,28,str(doc.page))
 pdf=OUT/'Qualia-Lab-Research.pdf'

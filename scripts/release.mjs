@@ -16,11 +16,11 @@ if(mode==='sync'){
  run('git',['pull','--ff-only','origin','main']);
 }
 run(process.execPath,['--check','server.mjs']);run(process.execPath,['--check','dist/app.js']);run(process.execPath,['--check','dist/engine.js']);
-run(process.execPath,['tests/engine.test.cjs']);
+run(process.execPath,['tests/engine.test.cjs']);run(process.execPath,['tests/monty-api.test.mjs']);run(process.execPath,['--check','dist/monty.js']);run(process.execPath,['--check','backend/monty-api.mjs']);
 if(mode==='publish'){
  run(process.execPath,['scripts/build.mjs']);
  const message=process.argv.slice(3).join(' ').trim();if(!message)throw Error('Provide a descriptive iteration message.');
- run('git',['add','--','dist','README.md','Qualia-Lab-Research.pdf','VALIDATION.json','package.json','server.mjs','scripts','tests','research','DEPLOYMENT.md','AGENTS.md','.gitignore','.github']);
+ run('git',['add','--','dist','README.md','Qualia-Lab-Research.pdf','VALIDATION.json','package.json','server.mjs','scripts','tests','research','backend','DEPLOYMENT.md','AGENTS.md','.gitignore','.github']);
  if(run('git',['status','--porcelain'],true))run('git',['commit','-m',message]);
 }
 if(run('git',['status','--porcelain'],true))throw Error('Deployment requires a clean, committed project.');

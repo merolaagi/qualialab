@@ -1,0 +1,15 @@
+# Monty integration
+
+This bridge imports unmodified `State` and `EvidenceGraphLM` from https://github.com/merolaagi/tbp.monty at commit `ed67dcbcacdded0418b59ff47667e59159116aa5`. The source archive lives in ignored `.runtime/monty-source`. No alternate matcher is used when Monty is unavailable: the UI returns an error.
+
+The bridge's analytical surface generator and feature adapters are new Qualia Lab code. The algorithm receives normalized features, known 3D locations, and known sensor frames. A and B are separate real learning modules. Training builds three named graphs; inference receives an unlabeled target and a shifted scan. The scan is prescribed, not chosen by Monty's motor system. No Habitat, TACTO, tactile hardware, haptic output, or real chemical sensor is connected.
+
+Touch uses pressure/roughness/temperature; vision uses luminance/redness/contrast; sound uses frequency/amplitude/spectral brightness; taste uses sweetness/sourness/bitterness; smell uses floral/woody/intensity. These features are synthetic and normalized. Sound/taste/smell borrow virtual spatial poses from the test environment, an explicit assumption rather than validated sensory modeling. The modality-specific feature adapters feed the same CMP and learning algorithm. There is no claim that biological modalities have identical mechanisms.
+
+`POST /api/monty/run` accepts only the bounded protocol in `monty-api.mjs`. One process runs at a time, with a 4 KB input limit, 2 MB output limit, 90-second timeout, and one-second admission interval. No uploads, filesystem selectors, commands, Python expressions, or persistent user models are accepted. The shared public lab may return 429 while occupied. Each request trains fresh small graphs.
+
+The local runtime uses the existing `/opt/anaconda3/envs/tbp.monty/bin/python` environment without modifying it. Four missing dependencies are installed in `.runtime/python-overlay`: omegaconf 2.3.0, hydra-core 1.3.2, antlr4-python3-runtime 4.9.3, and eval_type_backport 0.4.0. `.runtime/monty.json` selects the Python executable. This tested local environment uses Python 3.8, NumPy 1.23.5, and Torch 1.11.0; it differs from the source project's full recommended environment. Only the graph-learning path is verified here, not its optional simulators or entire test suite.
+
+For reproduction, first install a working Monty-compatible environment following upstream instructions, then run `python3 scripts/setup_monty.py --python /absolute/path/to/that/python`. The helper downloads the pinned source and prepares only the overlay. It does not claim to install the full Monty stack. Run the printed integration-test command before using a new Python environment.
+
+The interface exports the entire protocol, source revision, training-node positions, feature/pose stream, hypotheses, evidence arrays over named objects, and raw evidence RMS. Evidence is unnormalized and can be negative. It is not a probability or measure of consciousness. `Use sensor sample in studio` maps selected sensory features back into the original toy network; it does not convert Monty graphs into neural hidden states.

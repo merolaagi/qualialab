@@ -6,7 +6,7 @@ const names=['Red ↔ green','Saturation','Illumination','Shadow','Light angle',
 const domains=['Vision','Sound','Touch','Taste','Smell'];
 const primary=[0,6,9,10,11];
 function notify(text){$('toast').textContent=text;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),5500);}
-function switchTab(tab){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.id==='tab-'+tab));document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));$('pageTitle').textContent={lab:'Experiment studio',learning:'Learning & alignment',search:'Behavioral twins',research:'Research notebook'}[tab];}
+function switchTab(tab){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.id==='tab-'+tab));document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));$('pageTitle').textContent={lab:'Experiment studio',learning:'Learning & alignment',search:'Behavioral twins',research:'Research notebook',monty:'Sensorimotor lab'}[tab];}
 document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
 function invalid(){state.alignment=null;state.winner=null;$('alignmentResult').textContent='Settings changed. Run alignment again to recalibrate.';$('searchResult').textContent='Settings changed. Run a new search.';$('loadWinner').hidden=true;$('searchStatus').textContent='No current search result.';$('ablations').textContent='Run ablations on the current experience.';}
 function nets(){return state.model==='learned'?state.pair:null;}

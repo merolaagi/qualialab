@@ -17,12 +17,23 @@
   },
   "browser_visual_QA": "Live HTTPS site inspected in browser; training, alignment, 5,000-case search, winner loading, and temporal memory exercised.",
   "webmcp_native_validation": "Unavailable; registration, valid read, and invalid-input handling checked in a mock context.",
-  "pdf_visual_QA": "17 pages rendered and reviewed; transcript and narrative included.",
+  "pdf_visual_QA": "21 pages rendered and reviewed including new Monty extension and preserved transcript.",
   "publication": "Public GitHub repository and Cloudflare hostname verified; login-service activation requires one-time Terminal command because this agent session cannot bootstrap macOS services.",
   "deployment": {
     "domain": "https://qualialab.fueldeskpro.com",
     "repository": "https://github.com/merolaagi/qualialab",
     "origin": "127.0.0.1:61071",
     "ci": "GitHub Actions computational checks passed"
+  },
+  "monty": {
+    "real_engine": "EvidenceGraphLM from pinned ed67dcbcacdded0418b59ff47667e59159116aa5",
+    "five_modality_identity_controls": "passed; all recognized sphere with equal A/B evidence",
+    "biased_touch_max_evidence_RMS": 6.887846520750155,
+    "partial_history": "fewer learned graph nodes",
+    "ablations": [
+      "features",
+      "location"
+    ],
+    "http": "real engine returned 200; cold start exceeded former 45s limit, increased to 90s"
   }
 }

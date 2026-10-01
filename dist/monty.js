@@ -1,0 +1,32 @@
+/* Live Monty experiments. This is an interface to Python, not a JS imitation. */
+(()=>{
+const el=id=>document.getElementById(id);let result=null;
+const colors=['#ff866f','#64d1e6','#b8a0e8'];
+const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function svgPath(points,w,h){return points.map((p,i)=>(i?'L':'M')+(30+(p[0]+.075)/.15*(w-60)).toFixed(1)+','+(20+(.075-p[1])/.15*(h-40)).toFixed(1)).join(' ');}
+function showStep(){
+ if(!result)return;
+ const index=+el('montyStep').value,t=result.trajectory[index],n=result.trajectory.length;
+ el('montyStepLabel').textContent=`Contact ${index+1} of ${n}`;
+ el('montyGap').textContent=t.evidenceRMS.toFixed(3);el('montyAgreement').textContent=t.sameHypothesis?'Same hypothesis':'Different hypotheses';
+ el('montyFeatures').innerHTML=Object.entries(t.features).map(([k,v])=>`<div><span>${escape(k.replaceAll('_',' '))}</span><strong>${v.toFixed(3)}</strong></div>`).join('');
+ el('montyPosition').textContent=t.location.map(x=>(100*x).toFixed(2)).join(', ')+' cm';
+ const pts=result.trajectory.map(s=>s.location),x=30+(t.location[0]+.075)/.15*360,y=20+(.075-t.location[1])/.15*240;
+ el('montySurface').innerHTML=`<svg viewBox="0 0 420 280" role="img" aria-label="Top-down projection of the sampled three-dimensional contact path"><path d="${svgPath(pts,420,280)}" fill="none" stroke="#385770" stroke-width="2"/><path d="${svgPath(pts.slice(0,index+1),420,280)}" fill="none" stroke="#a9e4ed" stroke-width="3"/>${pts.map((p,i)=>`<circle cx="${30+(p[0]+.075)/.15*360}" cy="${20+(.075-p[1])/.15*240}" r="${i===index?6:2.5}" fill="${i===index?'#ff866f':'#6a859c'}"/>`).join('')}<line x1="210" y1="20" x2="210" y2="260" stroke="#2a3c4f"/><line x1="30" y1="140" x2="390" y2="140" stroke="#2a3c4f"/><circle cx="${x}" cy="${y}" r="6" fill="#ff866f"/></svg>`;
+ el('montyAgents').innerHTML=t.agents.map((a,j)=>`<article class="panel agent ${j?'b':''}"><span class="tag">AGENT ${j?'B':'A'}</span><div class="report">${escape(a.hypothesis)}</div><p>${a.hypothesisCount} pose/location hypotheses<br>${Object.values(result.trainingNodes[j]).reduce((n,v)=>n+v.length,0)} learned graph nodes</p>${result.objects.map((name,i)=>`<div class="montyScore"><span><i class="dot" style="background:${colors[i]}"></i> ${name}</span><strong>${a.evidence[name].toFixed(2)}</strong></div>`).join('')}<p class="subtle">Candidate set: ${a.possibleMatches.map(escape).join(', ')||'none'}</p></article>`).join('');
+ const all=result.trajectory.flatMap(s=>s.agents.flatMap(a=>Object.values(a.evidence))),lo=Math.min(0,...all),hi=Math.max(1,...all),width=700,height=220;
+ const paths=[0,1].flatMap(j=>result.objects.map((name,k)=>{const d=result.trajectory.slice(0,index+1).map((s,i)=>(i?'L':'M')+(38+i/(n-1)*630).toFixed(1)+','+(20+(hi-s.agents[j].evidence[name])/(hi-lo)*170).toFixed(1)).join(' ');return `<path d="${d}" stroke="${colors[k]}" stroke-width="${j?2:3}" ${j?'stroke-dasharray="5 5"':''} fill="none"/>`;})).join('');
+ el('montyEvidence').innerHTML=`<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Monty evidence accumulated across successive contacts; solid lines A, dashed lines B"><line x1="38" y1="20" x2="38" y2="190" stroke="#4b6278"/><line x1="38" y1="190" x2="668" y2="190" stroke="#4b6278"/><text x="0" y="25" fill="#a3b1c1" font-size="12">${hi.toFixed(0)}</text><text x="0" y="190" fill="#a3b1c1" font-size="12">${lo.toFixed(0)}</text><text x="38" y="215" fill="#a3b1c1" font-size="12">Contact 1</text><text x="600" y="215" fill="#a3b1c1" font-size="12">Contact ${n}</text>${paths}</svg>`;
+}
+el('montyRun').onclick=async()=>{
+ if(location.protocol==='file:'){el('montyStatus').textContent='Monty runs on the Mac mini. Open https://qualialab.fueldeskpro.com to run this experiment. The original browser-only experiments remain available offline.';return;}
+ const protocol={modality:el('montyModality').value,object:el('montyObject').value,history:el('montyHistory').value,steps:+el('montySteps').value,force:+el('montyForce').value,noise:+el('montyNoise').value,seed:+el('montySeed').value,ablation:el('montyAblation').value};
+ const controls=[...document.querySelectorAll('#montyProtocol input,#montyProtocol select,#montyProtocol button')];controls.forEach(x=>x.disabled=true);el('montyStatus').textContent='Training real Monty object graphs and running the shared scan…';el('montyStatus').setAttribute('aria-busy','true');
+ try{const response=await fetch('/api/monty/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(protocol)});const data=await response.json();if(!response.ok)throw Error(data.error||'Experiment failed');result=data;el('montyResults').hidden=false;el('montyStep').max=data.trajectory.length-1;el('montyStep').value=data.trajectory.length-1;el('montyStatus').textContent=`Completed ${protocol.modality} scan in ${data.elapsedSeconds.toFixed(2)}s of computation. Real EvidenceGraphLM · source ${data.sourceCommit.slice(0,8)}. Results reflect the protocol shown below.`;el('montyProtocolSummary').textContent=`${protocol.modality} · ${protocol.object} · B history: ${protocol.history} · ${protocol.steps} contacts · drive ${protocol.force} · noise ${protocol.noise} · ${protocol.ablation} ablation · seed ${protocol.seed}`;showStep();}
+ catch(e){el('montyStatus').textContent=e.message;}
+ finally{controls.forEach(x=>x.disabled=false);el('montyStatus').setAttribute('aria-busy','false');}
+};
+el('montyStep').oninput=showStep;
+el('montyExport').onclick=()=>{if(result)download('qualia-monty-experiment.json',JSON.stringify(result,null,2));};
+el('montyToStudio').onclick=()=>{if(!result)return;const t=result.trajectory[+el('montyStep').value],f=t.features,raw=Q.base(),m=result.protocol.modality;const signed=v=>Q.clamp(v*2-1);if(m==='touch'){raw[8]=signed(f.roughness);raw[9]=signed(f.temperature);}if(m==='vision'){raw[0]=signed(f.redness);raw[2]=f.luminance;}if(m==='sound'){raw[6]=signed(f.frequency);raw[7]=f.amplitude;}if(m==='taste')raw[10]=Q.clamp(f.sweetness-f.bitterness);if(m==='smell')raw[11]=Q.clamp(f.floral-f.woody);state.raw=raw;state.domain={vision:0,sound:1,touch:2,taste:3,smell:4}[m];invalid();controls();render();switchTab('lab');el('stimulusName').textContent='Monty sensor sample · '+m;notify('Copied selected sensory features into the original studio. Monty graph states are not eight-dimensional neural states.');};
+})();

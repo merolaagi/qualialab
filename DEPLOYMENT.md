@@ -53,3 +53,11 @@ The recovered transcript and research notes are included in this public project,
 Clone the repository, install Node.js and cloudflared, recreate the local runtime configuration and tunnel credentials through your Cloudflare account, choose a free port, and install launch agents for the new paths. Credentials are deliberately not backed up in the public repository. Preserve the existing DNS name and tunnel when restoring this same machine.
 
 GitHub Actions runs the computational checks on pushes and pull requests. It does not require a runner on the Mac, store Cloudflare credentials, or grant GitHub remote access to the Mac.
+
+## Real Monty extension (v1.1)
+
+Sensorimotor lab now calls a bounded Python-backed experiment API. `backend/README.md` describes the pinned source and local environment. Run `MPLCONFIGDIR=.runtime/mpl /opt/anaconda3/envs/tbp.monty/bin/python tests/monty_bridge_test.py` after changes to adapters or the Monty bridge. GitHub runs JavaScript/API validation; it does not claim to test the Mac's Monty environment.
+
+Static releases remain atomic. Backend files execute from the canonical checkout, so backend changes require a server restart and backend rollback requires restoring the matching source commit as well. `npm run rollback` alone rolls back static files, not the loaded Node server or Python bridge. Keep the previous commit available until live backend checks pass.
+
+The server now accepts `POST /api/monty/run` only for validated, size-bounded synthetic experiments. It continues to deny access to source, Git, credentials, and runtime files.

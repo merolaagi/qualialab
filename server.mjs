@@ -1,19 +1,22 @@
 import http from 'node:http';
+import {montyApi} from './backend/monty-api.mjs';
 import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const root=path.dirname(fileURLToPath(import.meta.url));
 const runtime=path.join(root,'.runtime');
+const handleMonty=montyApi(root);
 const config=JSON.parse(fs.readFileSync(path.join(runtime,'config.json'),'utf8'));
 if(!Number.isInteger(config.port)||config.port<1024||config.port>65535)throw Error('Invalid configured port');
 const allowed=new Map([
  ['/','index.html'],['/index.html','index.html'],['/app.js','app.js'],['/engine.js','engine.js'],
- ['/style.css','style.css'],['/README.md','README.md'],['/Qualia-Lab-Research.pdf','Qualia-Lab-Research.pdf'],
+ ['/style.css','style.css'],['/monty.js','monty.js'],['/README.md','README.md'],['/Qualia-Lab-Research.pdf','Qualia-Lab-Research.pdf'],
  ['/Qualia-Lab.html','Qualia-Lab.html']
 ]);
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.md':'text/markdown; charset=utf-8','.pdf':'application/pdf'};
 const server=http.createServer((req,res)=>{
+ if(req.url?.split('?')[0]==='/api/monty/run'){void handleMonty(req,res);return;}
  const headers={'X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Frame-Options':'SAMEORIGIN','Cache-Control':'no-store','Permissions-Policy':'camera=(), microphone=(), geolocation=()'};
  if(!['GET','HEAD'].includes(req.method)){res.writeHead(405,{...headers,Allow:'GET, HEAD'});res.end();return;}
  let pathname;try{pathname=new URL(req.url,'http://localhost').pathname;}catch{res.writeHead(400,headers);res.end();return;}
