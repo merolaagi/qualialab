@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+for(const name of ['README.md','Qualia-Lab-Research.pdf'])fs.copyFileSync(path.join(root,name),path.join(root,'dist',name));
+let html=fs.readFileSync(path.join(root,'dist/index.html'),'utf8');
+html=html.replace('<link rel="stylesheet" href="style.css">','<style>'+fs.readFileSync(path.join(root,'dist/style.css'),'utf8')+'</style>');
+for(const name of ['engine.js','app.js'])html=html.replace(`<script src="${name}"></script>`,'<script>'+fs.readFileSync(path.join(root,'dist',name),'utf8')+'</script>');
+for(const [name,type] of [['README.md','text/markdown'],['Qualia-Lab-Research.pdf','application/pdf']])html=html.replaceAll(`href="${name}" download`,`href="data:${type};base64,${fs.readFileSync(path.join(root,name)).toString('base64')}" download="${name}"`);
+fs.writeFileSync(path.join(root,'dist/Qualia-Lab.html'),html);
+console.log('Updated downloadable documents and standalone app.');

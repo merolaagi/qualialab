@@ -1,0 +1,18 @@
+{
+  "name": "qualia-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Generalized reconstruction of Qualia Lab iterations 1-4",
+  "scripts": {
+    "test": "node tests/engine.test.cjs",
+    "start": "node server.mjs",
+    "build": "node scripts/build.mjs",
+    "publish": "node scripts/release.mjs publish",
+    "deploy": "node scripts/release.mjs deploy",
+    "sync": "node scripts/release.mjs sync",
+    "rollback": "node scripts/release.mjs rollback"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "engine_checks": "passed",
+  "controller_checks": "passed in mock DOM, not browser-rendered",
+  "identity_raw_rms": 0,
+  "known_sign_inversion": {
+    "raw_rms": 0.19134511300643553,
+    "heldout_aligned_rms": 1.442899669461497e-07
+  },
+  "synthetic_test_vision_accuracy": [
+    0.8666666666666667,
+    0.7933333333333333
+  ],
+  "test_search": {
+    "cases": 5000,
+    "matches": 4106,
+    "maximumRawRMS": 1.2126907651446042
+  },
+  "browser_visual_QA": "Unavailable: local preview and browser launch blocked in this environment.",
+  "webmcp_native_validation": "Unavailable; registration, valid read, and invalid-input handling checked in a mock context.",
+  "pdf_visual_QA": "17 pages rendered and reviewed; transcript and narrative included.",
+  "publication": "Not published: Sites publishing helper disappeared from the available plugin installation during the task."
+}
