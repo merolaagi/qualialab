@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 for(const name of ['README.md','Qualia-Lab-Research.pdf'])fs.copyFileSync(path.join(root,name),path.join(root,'dist',name));
 let html=fs.readFileSync(path.join(root,'dist/index.html'),'utf8');
-const theoryBundle='<!-- THEORY_BUNDLE_START --><script>'+['theory-engine.js','theory-ui.js'].map(name=>fs.readFileSync(path.join(root,'dist',name),'utf8')).join('\n')+'</script><!-- THEORY_BUNDLE_END -->';
+const theoryBundle='<!-- THEORY_BUNDLE_START --><script>'+['theory-engine.js','theory-ui.js','orch-engine.js','orch-ui.js'].map(name=>fs.readFileSync(path.join(root,'dist',name),'utf8')).join('\n')+'</script><!-- THEORY_BUNDLE_END -->';
 html=html.replace(/<!-- THEORY_BUNDLE_START -->[\s\S]*?<!-- THEORY_BUNDLE_END -->|<script src="theory-engine.js"><\/script><script src="theory-ui.js"><\/script>/,()=>theoryBundle);
 fs.writeFileSync(path.join(root,'dist/index.html'),html);
 html=html.replace('<link rel="stylesheet" href="style.css">','<style>'+fs.readFileSync(path.join(root,'dist/style.css'),'utf8')+'</style>');

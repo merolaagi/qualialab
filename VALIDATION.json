@@ -17,7 +17,7 @@
   },
   "browser_visual_QA": "Live HTTPS site inspected in browser; training, alignment, 5,000-case search, winner loading, and temporal memory exercised.",
   "webmcp_native_validation": "Unavailable; registration, valid read, and invalid-input handling checked in a mock context.",
-  "pdf_visual_QA": "24 pages rendered and reviewed; theory methods, sources and original transcript included.",
+  "pdf_visual_QA": "26 pages rendered and reviewed including conditional Orch OR methods and preserved transcript.",
   "publication": "Public repository and Cloudflare hostname; both macOS login services confirmed running.",
   "deployment": {
     "domain": "https://qualialab.fueldeskpro.com",
@@ -40,5 +40,9 @@
     "tests": "Ramsey limits, exact classical equivalence, state positivity bounds, interventions, sampling reproducibility, input validation passed",
     "scope": "single-qubit Bloch simulation; no entanglement, brain model or consciousness inference",
     "browser": "Live HTTPS: default results, erasure preset, delay replay verified; responsive research layout inspected."
+  },
+  "orch_or": {
+    "tests": "SI conversion, inverse scaling, direct/additive equivalence, monotonic sweep, finite limits, strict inputs passed",
+    "scope": "conditional tau=hbar/E_G estimator only; no full Orch OR, biological model or consciousness inference"
   }
 }

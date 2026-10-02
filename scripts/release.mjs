@@ -18,6 +18,7 @@ if(mode==='sync'){
 run(process.execPath,['--check','server.mjs']);run(process.execPath,['--check','dist/app.js']);run(process.execPath,['--check','dist/engine.js']);
 run(process.execPath,['tests/engine.test.cjs']);run(process.execPath,['tests/monty-api.test.mjs']);run(process.execPath,['--check','dist/monty.js']);run(process.execPath,['--check','backend/monty-api.mjs']);
 run(process.execPath,['tests/theory.test.cjs']);run(process.execPath,['--check','dist/theory-ui.js']);
+run(process.execPath,['tests/orch.test.cjs']);run(process.execPath,['--check','dist/orch-ui.js']);
 if(mode==='publish'){
  run(process.execPath,['scripts/build.mjs']);
  const message=process.argv.slice(3).join(' ').trim();if(!message)throw Error('Provide a descriptive iteration message.');
