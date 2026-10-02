@@ -1,10 +1,10 @@
 {
   "name": "qualia-lab",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Generalized reconstruction of Qualia Lab iterations 1-4",
   "scripts": {
-    "test": "node tests/engine.test.cjs && node tests/monty-api.test.mjs",
+    "test": "node tests/engine.test.cjs && node tests/monty-api.test.mjs && node tests/theory.test.cjs",
     "start": "node server.mjs",
     "build": "node scripts/build.mjs",
     "publish": "node scripts/release.mjs publish",

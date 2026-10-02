@@ -17,8 +17,8 @@
   },
   "browser_visual_QA": "Live HTTPS site inspected in browser; training, alignment, 5,000-case search, winner loading, and temporal memory exercised.",
   "webmcp_native_validation": "Unavailable; registration, valid read, and invalid-input handling checked in a mock context.",
-  "pdf_visual_QA": "21 pages rendered and reviewed including new Monty extension and preserved transcript.",
-  "publication": "Public GitHub repository and Cloudflare hostname verified; login-service activation requires one-time Terminal command because this agent session cannot bootstrap macOS services.",
+  "pdf_visual_QA": "24 pages rendered and reviewed; theory methods, sources and original transcript included.",
+  "publication": "Public repository and Cloudflare hostname; both macOS login services confirmed running.",
   "deployment": {
     "domain": "https://qualialab.fueldeskpro.com",
     "repository": "https://github.com/merolaagi/qualialab",
@@ -35,5 +35,9 @@
       "location"
     ],
     "http": "real engine returned 200; cold start exceeded former 45s limit, increased to 90s"
+  },
+  "theory_workbench": {
+    "tests": "Ramsey limits, exact classical equivalence, state positivity bounds, interventions, sampling reproducibility, input validation passed",
+    "scope": "single-qubit Bloch simulation; no entanglement, brain model or consciousness inference"
   }
 }
