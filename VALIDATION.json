@@ -38,6 +38,7 @@
   },
   "theory_workbench": {
     "tests": "Ramsey limits, exact classical equivalence, state positivity bounds, interventions, sampling reproducibility, input validation passed",
-    "scope": "single-qubit Bloch simulation; no entanglement, brain model or consciousness inference"
+    "scope": "single-qubit Bloch simulation; no entanglement, brain model or consciousness inference",
+    "browser": "Live HTTPS: default results, erasure preset, delay replay verified; responsive research layout inspected."
   }
 }
