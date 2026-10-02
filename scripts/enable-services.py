@@ -18,7 +18,11 @@ def command(args, check=True):
 # Identify this setup's temporary processes by exact command and project directory.
 # This runs in the user's Terminal, where macOS permits process inspection.
 temporary = []
-expected = {'node server.mjs', 'cloudflared --no-autoupdate tunnel --config .runtime/cloudflared.yml run'}
+expected = {
+    'node server.mjs',
+    '/opt/homebrew/opt/node@22/bin/node server.mjs',
+    'cloudflared --no-autoupdate tunnel --config .runtime/cloudflared.yml run',
+}
 for line in command(['ps', '-axo', 'pid=,command=']).stdout.splitlines():
     parts = line.strip().split(None, 1)
     if len(parts) != 2 or parts[1] not in expected:
